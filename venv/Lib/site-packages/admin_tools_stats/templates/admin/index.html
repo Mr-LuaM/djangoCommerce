@@ -1,0 +1,22 @@
+{% extends "admin/index.html" %}
+{% load admin_chart_tags %}
+{% load static %}
+
+{% block extrastyle %}
+   {{ block.super }}
+   <script src="{% static "admin/js/vendor/jquery/jquery.js" %}"></script>
+   {% include '../include_nvd3.html' %}
+   <script src="{% url 'admin-charts' %}" type="text/javascript"></script>
+   <style>
+   .admin_charts {
+       padding: 20px 40px;
+   }
+   </style>
+{% endblock %}
+
+{% block footer %}
+   {% if request.resolver_match.view_name == 'admin:index' %}
+      {% chart_containers %}
+   {% endif %}
+   {{ block.super }}
+{% endblock %}

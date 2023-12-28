@@ -1,0 +1,35 @@
+<style>
+    .loading {
+        pointer-events:none;
+    }
+
+    form.loading * {
+       opacity: 50%;
+    }
+
+    form.loading::after {
+         content: " ";
+         height: 31px;
+         width: 31px;
+         display: inline-block;
+         background: rgba( 255, 255, 255, .8 )
+                url('http://i.stack.imgur.com/FhHRx.gif')
+                50% 50%
+                no-repeat;
+    }
+</style>
+<form class="stateform" action="." method="POST" enctype="multipart/form-data">
+   <input id="load_on_change" title="Load on change" checked type="checkbox"/>⇒&nbsp;
+   {% csrf_token %}
+   {% for w in form %}
+      {% if not w.is_hidden %}
+      {{ w.label }}:
+      {% endif %}
+      {{ w }}
+   {% endfor %}
+   &nbsp;<button class="reload" id="reload" title="reload values from unfinished periods" type="button" style="font-size:14px">⟳</button>
+   {% if chart.cache_values %}
+   &nbsp;<button class="reload" id="reload_all" title="reload all visible values" type="button" style="font-size:14px">⟳ all</button>
+   {% endif %}
+   &nbsp;<a href='{% url 'chart-analytics' %}?show={{ chart.graph_key }}' target='_blank'>analytics</a>
+</form>

@@ -1,0 +1,7 @@
+django-nvd3
+django-bower
+django-admin-tools
+model-bakery
+psycopg2
+mysqlclient
+django-coverage-plugin

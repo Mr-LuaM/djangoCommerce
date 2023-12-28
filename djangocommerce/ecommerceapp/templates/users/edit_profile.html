@@ -1,0 +1,111 @@
+{% extends 'users/includes/fullpage.html' %} {% block title %}Edit Profile | eCommerce{% endblock %} {% block content %}{% load humanize %}
+<main>
+  <div class="slider-area">
+    <div class="slider-active">
+      <div
+        class="single-slider hero-overly2 slider-height2 d-flex align-items-center slider-bg2"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-6 col-lg-8 col-md-8">
+              <div class="hero__caption hero__caption2">
+                <h1 data-animation="fadeInUp" data-delay=".4s">Checkout</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">checkout</a></li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="checkout_area section-padding40">
+    <div class="container">
+        <div class="billing_details">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3>Edit Profile</h3>
+                    <form class="row contact_form" action="{% url 'edit_profile' %}" method="post" novalidate="novalidate" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% if user.is_authenticated %}
+                            <!-- Full Name -->
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="fullname" name="full_name" placeholder="Full Name" value="{{ user.userprofile.full_name }}" required>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="col-md-12 form-group p_star">
+                                <input type="text" class="form-control" id="phonenumber" name="phone_number" placeholder="Phone Number" value="{{ user.userprofile.phone_number }}" required>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-md-12 form-group">
+                                <textarea class="form-control" name="address" id="address" rows="1" placeholder="Address" required>{{ user.userprofile.address }}</textarea>
+                            </div>
+
+                            <!-- Date of Birth -->
+                            <div class="col-md-12 form-group p_star">
+                                <input type="date" class="form-control" id="dateofbirth" name="date_of_birth" placeholder="Date of Birth" value="{{ user.userprofile.date_of_birth|date:'Y-m-d' }}" required>
+                            </div>
+
+                            <!-- Profile Image Upload -->
+                            <div class="col-md-12 form-group">
+                                <label for="profileImage">Profile Image</label>
+                                <input type="file" class="form-control-file" id="profileImage" name="profile_image">
+                                {% if user.userprofile.profile_image %}
+                                    <div class="mt-3">
+                                        <img src="{{ user.userprofile.profile_image.url }}" alt="Profile Image" style="max-width: 100px; max-height: 100px;">
+                                    </div>
+                                {% endif %}
+                            </div>
+                        {% endif %}
+
+                        <button type="submit" class="btn w-100" id="submitBtn">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+          
+</main>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  <!-- Include jQuery -->
+<script>
+    $(document).ready(function() {
+        // Disable the submit button initially
+        $('#submitBtn').prop('disabled', true);
+
+        // Function to check if all required fields are filled
+        function checkRequiredFields() {
+            var isFilled = true;
+            $('.contact_form input, .contact_form textarea').each(function() {
+                if ($(this).prop('required') && !$(this).val()) {
+                    isFilled = false;
+                    return false; // Exit the loop early if a required field is empty
+                }
+            });
+            return isFilled;
+        }
+
+        // Enable/disable the submit button based on required fields
+        $('.contact_form input, .contact_form textarea').on('input', function() {
+            $('#submitBtn').prop('disabled', !checkRequiredFields());
+        });
+
+        // If the form is submitted, check required fields one more time
+        $('#checkoutForm').submit(function() {
+            return checkRequiredFields();
+        });
+    });
+</script>
+
+
+{% endblock %}

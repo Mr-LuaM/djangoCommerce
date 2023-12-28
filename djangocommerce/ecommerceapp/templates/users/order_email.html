@@ -1,0 +1,11 @@
+<!-- email_templates/order_email.html -->
+<p>Hello {{ user.username }},</p>
+<p>Thank you for your order. Here are your order details:</p>
+<ul>
+    {% for item in order.orderitem_set.all %}
+    <li>{{ item.product.name }} (Quantity: {{ item.quantity }})</li>
+    {% endfor %}
+</ul>
+<p>Total Price: {{ order.total_price }}</p>
+<p>Shipping Address: {{ order.shipping_details }}</p>
+<p>If you have any questions, feel free to contact us.</p>

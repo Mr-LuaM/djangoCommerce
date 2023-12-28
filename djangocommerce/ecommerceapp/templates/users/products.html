@@ -1,0 +1,86 @@
+{% extends 'users/includes/fullpage.html' %}
+
+{% block title %}Login | eCommerce{% endblock %}
+
+{% block content %}
+<main>
+<div class="slider-area ">
+    <div class="slider-active">
+    <div class="single-slider hero-overly2  slider-height2 d-flex align-items-center slider-bg2">
+    <div class="container">
+    <div class="row">
+    <div class="col-xl-6 col-lg-8 col-md-8">
+    <div class="hero__caption hero__caption2">
+    <h1 data-animation="fadeInUp" data-delay=".4s">Product details</h1>
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Product details</a></li>
+    </ol>
+    </nav>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    
+    
+    <section class="properties new-arrival fix">
+        <div class="container">
+        
+        <div class="row justify-content-center">
+        <div class="col-xl-7 col-lg-8 col-md-10">
+        <div class="section-tittle mb-60 text-center wow fadeInUp" data-wow-duration="1s" data-wow-delay=".2s">
+        <h2>All Products</h2>
+        <P>Suspendisse varius enim in eros elementum tristique. Duis cursus, mi quis viverra ornare, eros dolor interdum nulla.</P>
+        </div>
+        </div>
+        </div>
+        <div class="row">
+        <div class="col-xl-12">
+        <div class="properties__button text-center">
+        
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    {% for category in categories %}
+                        <a class="nav-item nav-link {% if forloop.first %}active{% endif %}" id="nav-{{ category.name }}-tab" data-toggle="tab" href="#nav-{{ category.name }}" role="tab" aria-controls="nav-{{ category.name }}" aria-selected="{{ forloop.first|yesno:'true,false' }}">{{ category.name }}</a>
+                    {% endfor %}
+                </div>
+            </nav>
+            
+            <div class="tab-content" id="nav-tabContent">
+                {% for category in categories %}
+                    <div class="tab-pane fade {% if forloop.first %}show active{% endif %}" id="nav-{{ category.name }}" role="tabpanel" aria-labelledby="nav-{{ category.name }}-tab">
+                        <div class="row">
+                            {% for product in category.product_set.all %}
+                                <div class="col-lg-4 col-md-6 col-sm-6">
+                                    <div class="single-new-arrival mb-50 text-center">
+                                        <div class="popular-img">
+                                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                        </div>
+                                        <div class="popular-caption">
+                                            <h3><a href="{% url 'product_details' product.id %}">{{ product.name }}</a></h3>
+                                            <span>${{ product.price }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            
+            <div class="row justify-content-center">
+                <div class="room-btn">
+                    <a href="product.html" class="border-btn">Discover More</a>
+                </div>
+            </div>
+            
+        </section>
+</main>
+
+ 
+
+{% endblock %}

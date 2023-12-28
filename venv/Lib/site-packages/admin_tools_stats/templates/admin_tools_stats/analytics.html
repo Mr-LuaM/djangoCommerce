@@ -1,0 +1,87 @@
+{% extends "admin/base.html" %}
+{% load admin_chart_tags %}
+{% load static %}
+
+{% block extrastyle %}
+   {{ block.super }}
+   <script src="{% static "admin/js/vendor/jquery/jquery.js" %}"></script>
+   {% include '../include_nvd3.html' %}
+   <script src="{% url 'admin-charts' %}" type="text/javascript"></script>
+   <script>
+      $( document ).ready(function() {
+         {% if request.GET.show %}
+            loadAnalyticsChart('{{ request.GET.show }}');
+         {% endif %}
+         $(".change_chart_button").click(function(){
+            loadAnalyticsChart($(this).data("chart-key"));
+            return false;
+         });
+      });
+   </script>
+
+   <style>
+   .admin_charts {
+       padding: 0px 0px;
+   }
+   .chrt_container svg {
+        bottom: 0px !important;
+   }
+   #content, .chrt_container {
+        flex-grow: 1;
+   }
+   body {
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+   }
+   #container, .chrt_flex {
+      display: flex !important;
+      flex-direction: column !important;
+   }
+   #container, .admin_charts, .chrt_flex, .chrt_container, .chrt_svg_container {
+      height: 100%;
+      position: relative;
+   }
+
+   .modal {
+    display:    none;
+    position:   fixed;
+    z-index:    1000;
+    top:        0;
+    left:       0;
+    height:     100%;
+    width:      100%;
+    background: rgba( 255, 255, 255, .8 )
+                url('http://i.stack.imgur.com/FhHRx.gif')
+                50% 50%
+                no-repeat;
+    }
+
+    /* When the body has the loading class, we turn
+       the scrollbar off with overflow:hidden */
+    body.loading .modal {
+        overflow: hidden;
+    }
+
+    /* Anytime the body has the loading class, our
+       modal element will be visible */
+    body.loading .modal {
+        display: block;
+    }
+   </style>
+{% endblock %}
+
+{% block content %}
+   {% for chart in nonuser_charts %}
+   <a class="change_chart_button" href="?show={{ chart.graph_key }}" data-chart-key="{{ chart.graph_key }}"><button>{{ chart.graph_title }}</button></a>
+   {% empty %}
+      <p>
+         No charts available, please <a href="{% url 'admin:admin_tools_stats_dashboardstats_changelist' %}">configure them</a>
+      </p>
+   {% endfor %}
+   {% for chart in charts %}
+   <div class="admin_charts notloaded" id="chart_element_{{ chart.graph_key }}" data-chart-key="{{ chart.graph_key }}">
+   </div>
+   {% endfor %}
+   <div class="modal">
+{% endblock %}

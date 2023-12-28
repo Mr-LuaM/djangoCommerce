@@ -1,0 +1,119 @@
+{% load static %}
+<header>
+  <div class="header-area">
+    <div class="main-header header-sticky">
+      <div class="container-fluid">
+        <div
+          class="row menu-wrapper align-items-center justify-content-between"
+        >
+          <div class="header-left d-flex align-items-center">
+            <div class="logo">
+              <a href="/"
+                ><img src="{% static 'users/assets/img/logo/logo.png' %}" alt
+              /></a>
+            </div>
+
+            <div class="logo2">
+              <a href="/"
+                ><img src="{% static 'users/assets/img/logo/logo2.png' %}" alt
+              /></a>
+            </div>
+
+            <div class="main-menu d-none d-lg-block">
+              <nav>
+                <ul id="navigation">
+                  <li class="{% if request.path == '/' %}active{% endif %}">
+                    <a href="/">Home</a>
+                  </li>
+                  <li
+                    class="{% if request.path == 'product_list' %}active{% endif %}"
+                  >
+                    <a href="{% url 'product_list' %}">Product</a>
+                  </li>
+                  {% comment %} <li
+                    class="{% if request.path == '/categories/' %}active{% endif %}"
+                  >
+                    <a href="{% url 'categories' %}">Categories</a>
+                  </li> {% endcomment %}
+                  <li
+                    class="{% if request.path == '/about/' %}active{% endif %}"
+                  >
+                    <a href="{% url 'about' %}">About</a>
+                  </li>
+                  <li
+                    class="{% if request.path == '/contact/' %}active{% endif %}"
+                  >
+                    <a href="{% url 'contact' %}">Contact</a>
+                  </li>
+
+                  {% if user.is_authenticated %}
+                  <li
+                    class="{% if request.path == '/history/' %}active{% endif %}"
+                  >
+                    <a href="{% url 'purchase_history' %}">My purchases</a>
+                  </li>
+                  {% endif %}
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="header-right1 d-flex align-items-center">
+            <div class="search">
+              <ul class="d-flex align-items-center">
+                <li>
+                  <form action="#" class="form-box f-right">
+                    <input
+                      type="text"
+                      name="Search"
+                      placeholder="Search products"
+                    />
+                    <div class="search-icon">
+                      <i class="ti-search"></i>
+                    </div>
+                  </form>
+                </li>
+                <li>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'logout' %}" class="account-btn">Logout</a>
+                  {% else %}
+                  <a
+                    href="{% url 'login' %}"
+                    class="account-btn"
+                    target="_blank"
+                    >My Account</a
+                  >
+                  {% endif %}
+                </li>
+
+                <li>
+                  <div class="card-stor" style="margin-right: 20px;">
+                      <a href="{% url 'cart' %}">
+                          <img src="{% static 'users/assets/img/icon/card.svg' %}" alt="Cart" />
+                          <span>{{ cart_items_count }}</span>
+                      </a>
+                  </div>
+              </li>
+              <li>
+                  <div class="profile-icon" style="margin-left: 20px;">
+                      <a href="{% url 'edit_profile' %}">
+                          {% if request.user.userprofile.profile_image %}
+                              <img src="{{ request.user.userprofile.profile_image.url }}" alt="{{ request.user.username }}" style="width: 40px; height: 40px; border-radius: 50%;" />
+                          {% else %}
+                              <img src="{% static 'users/assets/img/icon/f10ff70a7155e5ab666bcdd1b45b726d.jpg' %}" alt="Default Profile" style="width: 40px; height: 40px; border-radius: 50%;" />
+                          {% endif %}
+                      </a>
+                  </div>
+              </li>
+              
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="mobile_menu d-block d-lg-none"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -1,0 +1,247 @@
+{% extends 'users/includes/fullpage.html' %} {% block title %}Login |
+eCommerce{% endblock %} {% block content %}{% load humanize %}
+<main>
+  <div class="slider-area">
+    <div class="slider-active">
+      <div
+        class="single-slider hero-overly2 slider-height2 d-flex align-items-center slider-bg2"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-6 col-lg-8 col-md-8">
+              <div class="hero__caption hero__caption2">
+                <h1 data-animation="fadeInUp" data-delay=".4s">Checkout</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">checkout</a></li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="checkout_area section-padding40">
+    <div class="container">
+      <div class="billing_details">
+        <div class="row">
+          <div class="col-lg-6">
+            <h3>Billing Details</h3>
+            <!-- Form for Billing Details -->
+            <form class="row contact_form" action="{% url 'checkout' %}" method="post" novalidate="novalidate" enctype="multipart/form-data">
+              {% csrf_token %}
+              {% if user.is_authenticated %}
+                  <!-- Full Name -->
+                  <div class="col-md-12 form-group p_star">
+                      <input
+                          type="text"
+                          class="form-control"
+                          id="fullname"
+                          name="full_name"
+                          placeholder="Full Name"
+                          value="{{ user_profile.full_name }}"
+                          required
+                      />
+                  </div>
+          
+                  <!-- Email -->
+                  <div class="col-md-12 form-group p_star">
+                      <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          name="email"
+                          placeholder="Email"
+                          value="{{ user.email }}"
+                          required
+                      />
+                  </div>
+          
+                  <!-- Phone Number -->
+                  <div class="col-md-12 form-group p_star">
+                      <input
+                          type="text"
+                          class="form-control"
+                          id="phonenumber"
+                          name="phone_number"
+                          placeholder="Phone Number"
+                          value="{{ user_profile.phone_number }}"
+                          required
+                      />
+                  </div>
+          
+                  <!-- Shipping Address -->
+                  <div class="col-md-12 form-group">
+                      <textarea
+                          class="form-control"
+                          name="shipping_address"
+                          id="shipping_address"
+                          rows="1"
+                          placeholder="Shipping Address"
+                          required
+                      >{{ user_profile.address }}</textarea>
+                  </div>
+          
+                  <!-- Order Notes -->
+                  <div class="col-md-12 form-group">
+                      <textarea
+                          class="form-control"
+                          name="order_notes"
+                          id="order_notes"
+                          rows="1"
+                          placeholder="Order Notes"
+                      ></textarea>
+                  </div>
+              {% endif %}
+          
+              <button type="submit" class="btn w-100" id="submitBtn">Add Order</button>
+          </form>
+          
+          </div>
+
+          <div class="col-lg-6">
+            <!-- Display Cart Items -->
+            <div class="order_box">
+              <h2>Your Order</h2>
+
+              <ul class="list">
+                <li>
+                  <a href="#">Product<span>Total</span> </a>
+                </li>
+                {% for item in cart_items %}
+                <li>
+                  <a href="#"
+                    >{{ item.product.name }}<span class="middle"
+                      >x {{ item.quantity }}</span
+                    ><span class="last"
+                      >₱{{ item.product.price|floatformat:2|intcomma  }}</span
+                    >
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+              <ul class="list list_2">
+                <li>
+                  <a href="#"
+                    >Subtotal <span>₱{{ total_price|floatformat:2|intcomma  }}</span></a
+                  >
+                </li>
+                <li>
+                  <a href="#">Shipping <span>Flat rate: ₱50.00</span></a>
+                </li>
+                <li>
+                    <a href="#">Total<span>₱{{ total_price|add:50|floatformat:2|intcomma  }}</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="categories-area section-padding40 gray-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div
+            class="single-cat mb-50 wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay=".2s"
+          >
+            <div class="cat-icon">
+              <img src="assets/img/icon/services1.svg" alt />
+            </div>
+            <div class="cat-cap">
+              <h5>Fast & Free Delivery</h5>
+              <p>Free delivery on all orders</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div
+            class="single-cat mb-50 wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay=".2s"
+          >
+            <div class="cat-icon">
+              <img src="assets/img/icon/services2.svg" alt />
+            </div>
+            <div class="cat-cap">
+              <h5>Secure Payment</h5>
+              <p>Free delivery on all orders</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div
+            class="single-cat mb-50 wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay=".4s"
+          >
+            <div class="cat-icon">
+              <img src="assets/img/icon/services3.svg" alt />
+            </div>
+            <div class="cat-cap">
+              <h5>Money Back Guarantee</h5>
+              <p>Free delivery on all orders</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+          <div
+            class="single-cat mb-50 wow fadeInUp"
+            data-wow-duration="1s"
+            data-wow-delay=".5s"
+          >
+            <div class="cat-icon">
+              <img src="assets/img/icon/services4.svg" alt />
+            </div>
+            <div class="cat-cap">
+              <h5>Online Support</h5>
+              <p>Free delivery on all orders</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>  <!-- Include jQuery -->
+<script>
+    $(document).ready(function() {
+        // Disable the submit button initially
+        $('#submitBtn').prop('disabled', true);
+
+        // Function to check if all required fields are filled
+        function checkRequiredFields() {
+            var isFilled = true;
+            $('.contact_form input, .contact_form textarea').each(function() {
+                if ($(this).prop('required') && !$(this).val()) {
+                    isFilled = false;
+                    return false; // Exit the loop early if a required field is empty
+                }
+            });
+            return isFilled;
+        }
+
+        // Enable/disable the submit button based on required fields
+        $('.contact_form input, .contact_form textarea').on('input', function() {
+            $('#submitBtn').prop('disabled', !checkRequiredFields());
+        });
+
+        // If the form is submitted, check required fields one more time
+        $('#checkoutForm').submit(function() {
+            return checkRequiredFields();
+        });
+    });
+</script>
+
+
+{% endblock %}

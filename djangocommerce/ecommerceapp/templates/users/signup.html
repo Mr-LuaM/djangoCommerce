@@ -1,0 +1,64 @@
+{% extends 'users/includes/base.html' %}
+
+{% block title %}Sign Up | eCommerce{% endblock %}
+
+{% block content %}
+<div class="register-form-area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-6 col-lg-8">
+                <div class="register-form text-center">
+                
+                    <div class="register-heading">
+                        <span>Sign Up</span>
+                        <p>Create your account to get full access</p>
+                    </div>
+                    
+              <!-- your_app/templates/users/signup.html -->
+<form method="post" action="{% url 'signup' %}">
+    {% csrf_token %}
+    
+    <div class="input-box">
+        <div class="single-input-fields">
+            {{ form.full_name.label_tag }}
+            {{ form.full_name }}
+        </div>
+        <div class="single-input-fields">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="single-input-fields">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+        <div class="single-input-fields">
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+        </div>
+        <div class="single-input-fields">
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+        </div>
+    </div>
+
+    <div class="register-footer">
+        <p>Already have an account? <a href="{% url 'login' %}">Login</a> here</p>
+        <button type="submit" class="submit-btn3">Sign Up</button>
+    </div>
+</form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    {% if form.errors %}
+    <div class="alert alert-danger">
+        {% for field, error in form.errors.items %}
+            {{ field }}: {{ error }}
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% endblock %}

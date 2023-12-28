@@ -1,0 +1,122 @@
+{% extends 'users/includes/fullpage.html' %} {% block title %}Login |
+eCommerce{% endblock %} {% load humanize %} {% block content %}
+<main>
+  <div class="slider-area">
+    <div class="slider-active">
+      <div
+        class="single-slider hero-overly2 slider-height2 d-flex align-items-center slider-bg2"
+      >
+        <div class="container">
+          <div class="row">
+            <div class="col-xl-6 col-lg-8 col-md-8">
+              <div class="hero__caption hero__caption2">
+                <h1 data-animation="fadeInUp" data-delay=".4s">Cart List</h1>
+                <nav aria-label="breadcrumb">
+                  <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                      <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#">Cart List</a></li>
+                  </ol>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="cart_area section-padding40">
+    <div class="container">
+      <div class="cart_inner">
+        <div class="table-responsive">
+          <h1>Your Shopping Cart</h1>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Product</th>
+                <th scope="col">Price</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in cart_items %}
+              <tr>
+                <td>
+                  <div class="media">
+                    <div class="d-flex">
+                      <img
+                        src="{{ item.product.image.url }}"
+                        alt="{{ item.product.name }}"
+                      />
+                    </div>
+                    <div class="media-body">
+                      <p>{{ item.product.name }}</p>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <h5>₱{{ item.product.price }}</h5>
+                </td>
+                <td>
+                  <div class="product_count">
+                    <form action="{% url 'update_quantity' %}" method="post">
+                      {% csrf_token %}
+                      <input
+                        type="hidden"
+                        name="product_id"
+                        value="{{ item.product.id }}"
+                      />
+                      <span
+                        class="input-number-decrement"
+                        data-product-id="{{ item.product.id }}"
+                      >
+                        <i class="ti-minus"></i
+                      ></span>
+                      <input
+                        class="input-number quantity-input"
+                        type="text"
+                        name="quantity"
+                        value="{{ item.quantity }}"
+                        min="0"
+                        max="10"
+                        data-product-id="{{ item.product.id }}"
+                      />
+                      <span
+                        class="input-number-increment"
+                        data-product-id="{{ item.product.id }}"
+                      >
+                        <i class="ti-plus"></i
+                      ></span>
+                      <input type="submit" style="display: none" />
+                      <!-- Hide the submit button -->
+                    </form>
+                  </div>
+                </td>
+                <td>₱{{ item.total|intcomma }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="checkout_btn_inner float-right">
+          <a class="btn" href="{% url 'product_list' %}">Continue Shopping</a>
+          {% if cart_items %}
+          <a
+            id="checkoutLink"
+            class="btn checkout_btn"
+            href="{% url 'checkout' %}"
+            >Proceed to checkout</a
+          >
+          {% else %}
+          <span class="btn checkout_btn disabled">Proceed to checkout</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

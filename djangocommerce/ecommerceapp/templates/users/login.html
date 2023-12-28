@@ -1,0 +1,48 @@
+{% extends 'users/includes/base.html' %}
+
+{% block title %}Login | eCommerce{% endblock %}
+
+{% block content %}
+<div class="login-form-area">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-8">
+                <div class="login-form">
+        
+                    <div class="login-heading">
+                        <span>Login</span>
+                        <p>Enter Login details to get access</p>
+                    </div>
+        
+                    <form method="post" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        
+                        <div class="input-box">
+                            <div class="single-input-fields">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                            </div>
+                            <div class="single-input-fields">
+                                {{ form.password.label_tag }}
+                                {{ form.password }}
+                            </div>
+                        </div>
+
+                        <div class="login-footer">
+                            <p>Don't have an account? <a href="{% url 'signup' %}">Sign Up</a></p>
+                            <button type="submit" class="submit-btn3">Login</button>
+                        </div>
+                    </form>
+                    
+                
+                    
+        
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+{% endblock %}

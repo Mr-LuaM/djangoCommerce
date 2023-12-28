@@ -1,0 +1,23 @@
+	/*
+  	Flaticon icon font: Flaticon
+  	Creation date: 03/06/2020 12:20
+  	*/
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("../fonts/Flaticon.html");
+  src: url("../fonts/Flaticond41d.html?#iefix") format("embedded-opentype"),
+       url("../fonts/Flaticon-2.html") format("woff2"),
+       url("../fonts/Flaticon-3.html") format("woff"),
+       url("../fonts/Flaticon-4.html") format("truetype"),
+       url("../fonts/Flaticon-5.html#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("../fonts/Flaticon-5.html#Flaticon") format("svg");
+  }
+}

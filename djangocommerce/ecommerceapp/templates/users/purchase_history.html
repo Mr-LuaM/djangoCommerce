@@ -1,0 +1,84 @@
+{% extends 'users/includes/fullpage.html' %} {% block title %}Order History eCommerce{% endblock %} {% load humanize %} {% block content %}
+<main>
+<div class="slider-area ">
+    <div class="slider-active">
+    <div class="single-slider hero-overly2  slider-height2 d-flex align-items-center slider-bg2">
+    <div class="container">
+    <div class="row">
+    <div class="col-xl-6 col-lg-8 col-md-8">
+    <div class="hero__caption hero__caption2">
+    <h1 data-animation="fadeInUp" data-delay=".4s">Purchase History</h1>
+    <nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+    <li class="breadcrumb-item"><a href="#">Purchase History</a></li>
+    </ol>
+    </nav>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+   
+    <section class="cart_area section-padding40">
+      <div class="container">
+          <div class="cart_inner">
+              <div class="table-responsive">
+                  <h1>Your Order History</h1>
+                  {% for order in orders %}  <h3 style="color: {% if order.status == 'PD' %}blue
+                  {% elif order.status == 'SH' %}orange
+                  {% elif order.status == 'CM' %}green
+                  {% elif order.status == 'CN' %}red
+                  {% endif %};">
+           Order #{{ order.id }} - {{ order.get_status_display }}
+       </h3>
+                     
+                      <table class="table">
+                          <thead>
+                              <tr>
+                                  <th scope="col">Product</th>
+                                  <th scope="col">Price</th>
+                                  <th scope="col">Quantity</th>
+                                  <th scope="col">Total</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              {% for item in order.orderitem_set.all %}
+                                  <tr>
+                                      <td>
+                                          <div class="media">
+                                              <div class="d-flex">
+                                                  <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 60px;" />
+                                              </div>
+                                              <div class="media-body">
+                                                  <p>{{ item.product.name }}</p>
+                                              </div>
+                                          </div>
+                                      </td>
+                                      <td>₱{{ item.product.price }}</td>
+                                      <td>{{ item.quantity }}</td>
+                                      <td>₱{{ item.total_price|intcomma }}</td>
+                                  </tr>
+                              {% endfor %}
+                          </tbody>
+                      </table>
+                      {% if order.status == 'PD' %}
+                      <form action="{% url 'cancel_order' order.id %}" method="post">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">Cancel Order</a>
+                      </form>
+                  {% endif %}
+                  {% empty %}
+                      <p>You have no orders.</p>
+                  {% endfor %}
+              </div>
+          </div>
+      </div>
+  </section>
+  
+    
+</main>
+{% endblock %}
