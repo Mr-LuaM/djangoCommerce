@@ -15,7 +15,7 @@ To run this project locally:
 
 1. Clone this repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/Mr-LuaM/djangoCommerce.git
    ```
 
 2. Install the dependencies:
